@@ -9,6 +9,7 @@ import (
 	"github.com/russross/blackfriday"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -71,19 +72,19 @@ func main() {
 							log.Fatal(err)
 						}
 						gistId = gistResp["id"].(string)
-						transformedGists.WriteString("[gist id=\"" + gistId + "\" file=\"" + gistFile.Filename + "\"]")
+						transformedGists.WriteString("[gist id=" + gistId + " file=" + gistFile.Filename + "]")
 
 					} else {
 						gistFile := &gost.GistFile{
 							Content:  currentGist.String(),
-							Filename: string(len(savedGist.Files)) + extension,
+							Filename: strconv.Itoa(len(savedGist.Files)) + "." + extension,
 						}
 						savedGist.Files[gistFile.Filename] = *gistFile
 						_, err := gist.Edit(gistId, savedGist)
 						if err != nil {
 							log.Fatal(gistId)
 						}
-						transformedGists.WriteString("[gist id=\"" + gistId + "\" file=\"" + gistFile.Filename + "\"]")
+						transformedGists.WriteString("[gist id=" + gistId + " file=" + gistFile.Filename + "]")
 					}
 
 					break // Done with Current Gist, Keep Parsing regular
