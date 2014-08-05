@@ -5,12 +5,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"flag"
-	"github.com/elbuo8/gost"
-	"github.com/russross/blackfriday"
 	"log"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/elbuo8/gost"
+	"github.com/russross/blackfriday"
 )
 
 func main() {
@@ -100,12 +101,11 @@ func main() {
 
 	renderer := blackfriday.HtmlRenderer(0, "", "")
 	HTMLRender := blackfriday.Markdown(transformedGists.Bytes(), renderer, 0)
-	log.Println(string(HTMLRender))
 	newFile, err := os.Create(*outputFile)
 	if err != nil {
 		log.Fatal(err)
 	}
-	_, err = newFile.Write(transformedGists.Bytes())
+	_, err = newFile.Write(string(HTMLRender))
 	if err != nil {
 		log.Fatal(err)
 	}
