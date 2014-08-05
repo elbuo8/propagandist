@@ -105,7 +105,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	_, err = newFile.Write(string(HTMLRender))
+	_, err = newFile.Write(HTMLRender)
 	if err != nil {
 		log.Fatal(err)
 	}
